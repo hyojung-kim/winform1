@@ -173,6 +173,7 @@ namespace WindowsFormsApp1
 
         private void delete_Click(object sender, EventArgs e)
         {
+            string currentRow = dataGridView1.CurrentCell.RowIndex.ToString();
             if (MessageBox.Show("삭제하시겠습니까?", "확인창", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 SqlConnection conn = dbConnect();
@@ -183,6 +184,7 @@ namespace WindowsFormsApp1
                     szQuery += "WHERE id=" + studentID.Text;
                     ds = GetData(szQuery);
                     selectStudent();
+                    dataGridView1.FirstDisplayedScrollingRowIndex = Convert.ToInt32(currentRow);
                 }
             }
             TotalCount();
