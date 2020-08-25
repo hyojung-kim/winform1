@@ -29,6 +29,7 @@ namespace WindowsFormsApp1
         }
         private void Form1_Load(object sender, EventArgs e)
         {
+            TotalCount();
             selectStudent();
             string[] data = { "Name", "Age", "Grade" };
             comboBox1.Items.AddRange(data);
@@ -64,6 +65,21 @@ namespace WindowsFormsApp1
             conn.Close();
             return totalRow;
         }
+        private void TotalCount()
+        {
+            totalCount = GetTotalRow();
+            if ((totalCount % divPage == 0))
+                labelPage.Text = currentPage.ToString() + " / " + (totalCount / divPage).ToString();
+            else
+                labelPage.Text = currentPage.ToString() + " / " + (totalCount / divPage + 1).ToString();
+        }
+        private void currentPageCount()
+        {
+             if ((totalCount % divPage == 0))
+                labelPage.Text = currentPage.ToString() + " / " + (totalCount / divPage).ToString();
+            else
+                labelPage.Text = currentPage.ToString() + " / " + (totalCount / divPage + 1).ToString();
+        }
         public void selectStudent()
         {
             String szQuery = "SELECT top "+ divPage +" * FROM Student where id not in(select top " + (topCount) + "id from Student);";
@@ -73,11 +89,7 @@ namespace WindowsFormsApp1
             
             // DataSource 속성을 설정
             dataGridView1.DataSource = ds.Tables[0];
-            totalCount = GetTotalRow();
-            if ((totalCount % divPage == 0))
-                labelPage.Text = currentPage.ToString() + " / " + (totalCount / divPage).ToString();
-            else
-                labelPage.Text = currentPage.ToString() + " / " + (totalCount / divPage + 1).ToString();
+           
         }
 
         //Event----------------------------------------------------------------------------------------------------------------------
@@ -129,6 +141,7 @@ namespace WindowsFormsApp1
                 ds = null;
                 MessageBox.Show("null");
             }
+            TotalCount();
         }
 
         private void update_Click(object sender, EventArgs e)
@@ -148,6 +161,7 @@ namespace WindowsFormsApp1
                 ds = null;
                 MessageBox.Show("null");
             }
+            TotalCount();
         }
 
         private void delete_Click(object sender, EventArgs e)
@@ -164,6 +178,7 @@ namespace WindowsFormsApp1
                     selectStudent();
                 }
             }
+            TotalCount();
         }
         //Key Down----------------------------------------------------------------------------------------------------------------------
         private void serachBox_KeyDown(object sender, KeyEventArgs e)
@@ -194,7 +209,7 @@ namespace WindowsFormsApp1
             currentPage += 1;
             totalPage = totalCount / divPage;
 
-            if(totalCount % divPage == 0)
+            if (totalCount % divPage == 0)
             {
                 if(currentPage <= (totalCount / divPage))
                 {
@@ -224,13 +239,15 @@ namespace WindowsFormsApp1
                     MessageBox.Show("마지막페이지 입니다.");
                 }
             }
+            currentPageCount();
         }
 
         private void PRE_Click(object sender, EventArgs e)
         {
             topCount -= 30;
             currentPage -= 1;
-          
+
+         
 
             if (topCount >= 0)
             {
@@ -245,6 +262,7 @@ namespace WindowsFormsApp1
                 PRE.Visible = false;
                 MessageBox.Show("첫페이지 입니다.");
             }
+            currentPageCount();
         }
     }
 }
