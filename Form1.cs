@@ -17,7 +17,7 @@ namespace WindowsFormsApp1
         string field;
         int topCount=0;
         int totalCount;
-        int totalPage;
+    
         int divPage=30;
         int currentPage=1;
 
@@ -133,8 +133,13 @@ namespace WindowsFormsApp1
             {
                 szQuery += "'" + NameBOX.Text + "'" + "," + AgeBox.Text + "," + GradeBox.Text + ")";
                 ds = GetData(szQuery);
+                topCount = totalCount / divPage * divPage;
+                if (totalCount % divPage == 0)
+                    currentPage = totalCount / divPage;
+                else
+                    currentPage = totalCount / divPage + 1;
                 selectStudent();
-                dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1;
+                dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount-1;
             }
             else
             {
@@ -146,6 +151,7 @@ namespace WindowsFormsApp1
 
         private void update_Click(object sender, EventArgs e)
         {
+            string currentRow = dataGridView1.CurrentCell.RowIndex.ToString();
             SqlConnection conn = dbConnect();
             DataSet ds;
             String szQuery = "UPDATE Student SET ";
@@ -155,6 +161,7 @@ namespace WindowsFormsApp1
                 szQuery += "Name='" + NameBOX.Text + "', Age =" + AgeBox.Text + ", Grade =" + GradeBox.Text + " where id=" + studentID.Text;
                 ds = GetData(szQuery);
                 selectStudent();
+                dataGridView1.FirstDisplayedScrollingRowIndex = Convert.ToInt32(currentRow);
             }
             else
             {
@@ -207,11 +214,10 @@ namespace WindowsFormsApp1
         {
             topCount += divPage;
             currentPage += 1;
-            totalPage = totalCount / divPage;
 
             if (totalCount % divPage == 0)
             {
-                if(currentPage <= (totalCount / divPage))
+                if(currentPage <= totalCount / divPage)
                 {
                     selectStudent();
                     PRE.Visible = true;
@@ -234,7 +240,7 @@ namespace WindowsFormsApp1
                 else
                 {
                     topCount -= divPage;
-                    currentPage = totalCount / divPage  + 1;
+                    currentPage = totalCount / divPage + 1;
                     NEXT.Visible = false;
                     MessageBox.Show("마지막페이지 입니다.");
                 }
