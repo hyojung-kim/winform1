@@ -20,12 +20,12 @@ namespace WindowsFormsApp1
     
         int divPage=30;
         int currentPage=1;
-
+       
         public Form1()
         {
             InitializeComponent();
+        
             SqlConnection conn = dbConnect();
-
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -111,10 +111,16 @@ namespace WindowsFormsApp1
 
         private void Search_Click(object sender, EventArgs e)
         {
-            String szQuery = "SELECT * FROM Student ";
-
+            
+            String szQuery;
             if (serachBox.TextLength > 0 && field.Length > 0)
-                szQuery += "where " + field + "='" + serachBox.Text + "'";
+            {
+               szQuery = string.Format("exec SP_Student {0}, {1}", field, serachBox.Text);
+            }
+            else
+            {
+                szQuery = "exec SP_Student null, null";
+            }
 
             // DataSet을 가져온다
             DataSet ds = GetData(szQuery);
@@ -127,11 +133,11 @@ namespace WindowsFormsApp1
         {
             SqlConnection conn = dbConnect();
             DataSet ds;
-            String szQuery = "insert into Student (Name, Age, Grade) values(";
+            String szQuery;
 
             if (NameBOX.TextLength != 0 && AgeBox.TextLength != 0 && GradeBox.TextLength != 0)
             {
-                szQuery += "'" + NameBOX.Text + "'" + "," + AgeBox.Text + "," + GradeBox.Text + ")";
+                szQuery = string.Format("exec sp_student_insert '{0}', {1}, {2}", NameBOX.Text, AgeBox.Text, GradeBox.Text); 
                 ds = GetData(szQuery);
                 topCount = totalCount / divPage * divPage;
                 if (totalCount % divPage == 0)
@@ -154,11 +160,11 @@ namespace WindowsFormsApp1
             string currentRow = dataGridView1.CurrentCell.RowIndex.ToString();
             SqlConnection conn = dbConnect();
             DataSet ds;
-            String szQuery = "UPDATE Student SET ";
+            String szQuery;
 
             if (NameBOX.TextLength != 0 && AgeBox.TextLength != 0 && GradeBox.TextLength != 0)
             {
-                szQuery += "Name='" + NameBOX.Text + "', Age =" + AgeBox.Text + ", Grade =" + GradeBox.Text + " where id=" + studentID.Text;
+                szQuery = string.Format("EXEC SP_STUDENT_UPDATE '{0}', {1}, {2}, {3}", NameBOX.Text, AgeBox.Text, GradeBox.Text, studentID.Text);
                 ds = GetData(szQuery);
                 selectStudent();
                 dataGridView1.FirstDisplayedScrollingRowIndex = Convert.ToInt32(currentRow);
@@ -178,10 +184,10 @@ namespace WindowsFormsApp1
             {
                 SqlConnection conn = dbConnect();
                 DataSet ds;
-                String szQuery = "DELETE FROM Student ";
+                String szQuery;
                 if (studentID.Text.Length > 0)
                 {
-                    szQuery += "WHERE id=" + studentID.Text;
+                    szQuery = string.Format("exec SP_Student_delete {0}", studentID.Text);
                     ds = GetData(szQuery);
                     selectStudent();
                     dataGridView1.FirstDisplayedScrollingRowIndex = Convert.ToInt32(currentRow);
@@ -248,6 +254,22 @@ namespace WindowsFormsApp1
                 }
             }
             currentPageCount();
+
+            Label[] lbl = new Label[] { page1, page2, page3, page4,
+                page5};
+            for (int i = 0; i < lbl.Length; i++)
+            {
+                lbl[i].Text = (i + 1).ToString();
+                if(currentPage == Convert.ToInt32(lbl[i].Text))
+                {
+                    lbl[i].ForeColor = Color.Red;
+                }
+                else
+                {
+                    lbl[i].ForeColor = Color.Black;
+                }
+            }
+
         }
 
         private void PRE_Click(object sender, EventArgs e)
@@ -271,6 +293,41 @@ namespace WindowsFormsApp1
                 MessageBox.Show("첫페이지 입니다.");
             }
             currentPageCount();
+        }
+
+        void labelColor()
+        {
+            Label[] lbl = new Label[] { page1, page2, page3, page4, page5 };
+            for (int i = 0; i < lbl.Length; i++)
+            {
+                
+                if (currentPage == Convert.ToInt32(lbl[i].Text))
+                {
+                    lbl[i].ForeColor = Color.Red;
+                }
+                else
+                {
+                    lbl[i].ForeColor = Color.Black;
+                }
+            }
+        }
+
+        private void page1_Click(object sender, EventArgs e)
+        {
+            topCount = divPage * 1 - 30;
+            currentPage = 1;
+            selectStudent();
+            currentPageCount();
+            labelColor();
+        }
+  
+        private void page2_Click_1(object sender, EventArgs e)
+        {
+            topCount = divPage * 2 - 30;
+            currentPage = 2;
+            selectStudent();
+            currentPageCount();
+            labelColor();
         }
     }
 }

@@ -48,7 +48,14 @@
             this.PRE = new System.Windows.Forms.Button();
             this.NEXT = new System.Windows.Forms.Button();
             this.labelPage = new System.Windows.Forms.Label();
+            this.page5 = new System.Windows.Forms.Label();
+            this.page1 = new System.Windows.Forms.Label();
+            this.page2 = new System.Windows.Forms.Label();
+            this.page3 = new System.Windows.Forms.Label();
+            this.page4 = new System.Windows.Forms.Label();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // search
@@ -219,7 +226,7 @@
             // PRE
             // 
             this.PRE.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.PRE.Location = new System.Drawing.Point(157, 551);
+            this.PRE.Location = new System.Drawing.Point(118, 543);
             this.PRE.Name = "PRE";
             this.PRE.Size = new System.Drawing.Size(132, 55);
             this.PRE.TabIndex = 17;
@@ -229,7 +236,7 @@
             // 
             // NEXT
             // 
-            this.NEXT.Location = new System.Drawing.Point(402, 551);
+            this.NEXT.Location = new System.Drawing.Point(836, 543);
             this.NEXT.Name = "NEXT";
             this.NEXT.Size = new System.Drawing.Size(132, 55);
             this.NEXT.TabIndex = 18;
@@ -240,17 +247,82 @@
             // labelPage
             // 
             this.labelPage.AutoSize = true;
-            this.labelPage.Location = new System.Drawing.Point(668, 561);
+            this.labelPage.Location = new System.Drawing.Point(1025, 580);
             this.labelPage.Name = "labelPage";
             this.labelPage.Size = new System.Drawing.Size(54, 18);
             this.labelPage.TabIndex = 19;
             this.labelPage.Text = "label6";
+            // 
+            // page5
+            // 
+            this.page5.AutoSize = true;
+            this.page5.Font = new System.Drawing.Font("굴림", 15F);
+            this.page5.Location = new System.Drawing.Point(147, 0);
+            this.page5.Name = "page5";
+            this.page5.Size = new System.Drawing.Size(30, 30);
+            this.page5.TabIndex = 20;
+            this.page5.Text = "5";
+            // 
+            // page1
+            // 
+            this.page1.AutoSize = true;
+            this.page1.Font = new System.Drawing.Font("굴림", 15F);
+            this.page1.Location = new System.Drawing.Point(3, 0);
+            this.page1.Name = "page1";
+            this.page1.Size = new System.Drawing.Size(30, 30);
+            this.page1.TabIndex = 21;
+            this.page1.Text = "1";
+            this.page1.Click += new System.EventHandler(this.page1_Click);
+            // 
+            // page2
+            // 
+            this.page2.AutoSize = true;
+            this.page2.Font = new System.Drawing.Font("굴림", 15F);
+            this.page2.Location = new System.Drawing.Point(39, 0);
+            this.page2.Name = "page2";
+            this.page2.Size = new System.Drawing.Size(30, 30);
+            this.page2.TabIndex = 22;
+            this.page2.Text = "2";
+            this.page2.Click += new System.EventHandler(this.page2_Click_1);
+            // 
+            // page3
+            // 
+            this.page3.AutoSize = true;
+            this.page3.Font = new System.Drawing.Font("굴림", 15F);
+            this.page3.Location = new System.Drawing.Point(75, 0);
+            this.page3.Name = "page3";
+            this.page3.Size = new System.Drawing.Size(30, 30);
+            this.page3.TabIndex = 23;
+            this.page3.Text = "3";
+            // 
+            // page4
+            // 
+            this.page4.AutoSize = true;
+            this.page4.Font = new System.Drawing.Font("굴림", 15F);
+            this.page4.Location = new System.Drawing.Point(111, 0);
+            this.page4.Name = "page4";
+            this.page4.Size = new System.Drawing.Size(30, 30);
+            this.page4.TabIndex = 24;
+            this.page4.Text = "4";
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.page1);
+            this.flowLayoutPanel1.Controls.Add(this.page2);
+            this.flowLayoutPanel1.Controls.Add(this.page3);
+            this.flowLayoutPanel1.Controls.Add(this.page4);
+            this.flowLayoutPanel1.Controls.Add(this.page5);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(267, 559);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(534, 39);
+            this.flowLayoutPanel1.TabIndex = 25;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1148, 633);
+            this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.labelPage);
             this.Controls.Add(this.NEXT);
             this.Controls.Add(this.PRE);
@@ -275,6 +347,8 @@
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -302,6 +376,12 @@
         private System.Windows.Forms.Button PRE;
         private System.Windows.Forms.Button NEXT;
         private System.Windows.Forms.Label labelPage;
+        private System.Windows.Forms.Label page5;
+        private System.Windows.Forms.Label page1;
+        private System.Windows.Forms.Label page2;
+        private System.Windows.Forms.Label page3;
+        private System.Windows.Forms.Label page4;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
     }
 }
 
