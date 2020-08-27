@@ -262,11 +262,13 @@
             this.page5.Size = new System.Drawing.Size(30, 30);
             this.page5.TabIndex = 20;
             this.page5.Text = "5";
+            this.page5.Click += new System.EventHandler(this.page5_Click);
             // 
             // page1
             // 
             this.page1.AutoSize = true;
             this.page1.Font = new System.Drawing.Font("굴림", 15F);
+            this.page1.ForeColor = System.Drawing.Color.Red;
             this.page1.Location = new System.Drawing.Point(3, 0);
             this.page1.Name = "page1";
             this.page1.Size = new System.Drawing.Size(30, 30);
@@ -294,6 +296,7 @@
             this.page3.Size = new System.Drawing.Size(30, 30);
             this.page3.TabIndex = 23;
             this.page3.Text = "3";
+            this.page3.Click += new System.EventHandler(this.page3_Click);
             // 
             // page4
             // 
@@ -304,6 +307,7 @@
             this.page4.Size = new System.Drawing.Size(30, 30);
             this.page4.TabIndex = 24;
             this.page4.Text = "4";
+            this.page4.Click += new System.EventHandler(this.page4_Click);
             // 
             // flowLayoutPanel1
             // 

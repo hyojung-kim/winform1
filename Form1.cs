@@ -17,10 +17,10 @@ namespace WindowsFormsApp1
         string field;
         int topCount=0;
         int totalCount;
-    
+        int i;
         int divPage=30;
         int currentPage=1;
-       
+        
         public Form1()
         {
             InitializeComponent();
@@ -72,7 +72,10 @@ namespace WindowsFormsApp1
                 labelPage.Text = currentPage.ToString() + " / " + (totalCount / divPage).ToString();
             else
                 labelPage.Text = currentPage.ToString() + " / " + (totalCount / divPage + 1).ToString();
+
+
         }
+
         private void currentPageCount()
         {
              if ((totalCount % divPage == 0))
@@ -82,7 +85,7 @@ namespace WindowsFormsApp1
         }
         public void selectStudent()
         {
-            String szQuery = "SELECT top "+ divPage +" * FROM Student where id not in(select top " + (topCount) + "id from Student);";
+            String szQuery = string.Format("exec SP_Student_top {0}, {1}", divPage, topCount);
           
             // DataSet을 가져온다
             DataSet ds = GetData(szQuery);
@@ -190,7 +193,11 @@ namespace WindowsFormsApp1
                     szQuery = string.Format("exec SP_Student_delete {0}", studentID.Text);
                     ds = GetData(szQuery);
                     selectStudent();
-                    dataGridView1.FirstDisplayedScrollingRowIndex = Convert.ToInt32(currentRow);
+                    if (Convert.ToInt32(currentRow) == 0)
+                    { }   
+                    else
+                    dataGridView1.FirstDisplayedScrollingRowIndex = Convert.ToInt32(currentRow)-1;
+                
                 }
             }
             TotalCount();
@@ -254,21 +261,7 @@ namespace WindowsFormsApp1
                 }
             }
             currentPageCount();
-
-            Label[] lbl = new Label[] { page1, page2, page3, page4,
-                page5};
-            for (int i = 0; i < lbl.Length; i++)
-            {
-                lbl[i].Text = (i + 1).ToString();
-                if(currentPage == Convert.ToInt32(lbl[i].Text))
-                {
-                    lbl[i].ForeColor = Color.Red;
-                }
-                else
-                {
-                    lbl[i].ForeColor = Color.Black;
-                }
-            }
+            labelColor();
 
         }
 
@@ -293,29 +286,84 @@ namespace WindowsFormsApp1
                 MessageBox.Show("첫페이지 입니다.");
             }
             currentPageCount();
+            labelColor();
         }
 
         void labelColor()
         {
             Label[] lbl = new Label[] { page1, page2, page3, page4, page5 };
-            for (int i = 0; i < lbl.Length; i++)
+            int j = 5;
+
+            if (currentPage < 6)
             {
-                
-                if (currentPage == Convert.ToInt32(lbl[i].Text))
+                for (i = 1; i < lbl.Length + 1; i++)
                 {
-                    lbl[i].ForeColor = Color.Red;
+                    lbl[i - 1].Text = i.ToString();
+
+                    if (currentPage == Convert.ToInt32(lbl[i - 1].Text))
+                    {
+                        lbl[i - 1].ForeColor = Color.Red;
+                    }
+                    else
+                    {
+                        lbl[i - 1].ForeColor = Color.Black;
+                    }
                 }
-                else
+            }
+            else
+            {
+                while (true)
                 {
-                    lbl[i].ForeColor = Color.Black;
+                    if (currentPage < 6 + j)
+                    {
+                        for (i = 1 + j; i < lbl.Length + 1 + j; i++)
+                        {
+                            lbl[i - (1 + j)].Text = i.ToString();
+
+                            if (currentPage == Convert.ToInt32(lbl[i - (1 + j)].Text))
+                            {
+                                lbl[i - (1 + j)].ForeColor = Color.Red;
+                            }
+                            else
+                            {
+                                lbl[i - (1 + j)].ForeColor = Color.Black;
+                            }
+                        }
+                        break;
+                    }
+                    else
+                        j += 5;
+                }
+
+                for (int n = 0; n < lbl.Length; n++)
+                {
+                    if(totalCount % divPage == 0)
+                    {
+                        if (Convert.ToInt32(lbl[n].Text) > totalCount / divPage)
+                        {
+                            lbl[n].Visible = false;
+                        }
+                        else
+                            lbl[n].Visible = true;
+                    }
+                    else
+                    {
+                        if (Convert.ToInt32(lbl[n].Text) > totalCount / divPage + 1)
+                        {
+                            lbl[n].Visible = false;
+                        }
+                        else
+                            lbl[n].Visible = true;
+                    }
+                    
                 }
             }
         }
 
         private void page1_Click(object sender, EventArgs e)
         {
-            topCount = divPage * 1 - 30;
-            currentPage = 1;
+            topCount = divPage * Convert.ToInt32(page1.Text) - 30;
+            currentPage = Convert.ToInt32(page1.Text);
             selectStudent();
             currentPageCount();
             labelColor();
@@ -323,8 +371,35 @@ namespace WindowsFormsApp1
   
         private void page2_Click_1(object sender, EventArgs e)
         {
-            topCount = divPage * 2 - 30;
-            currentPage = 2;
+            topCount = divPage * Convert.ToInt32(page2.Text) - 30;
+            currentPage = Convert.ToInt32(page2.Text);
+            selectStudent();
+            currentPageCount();
+            labelColor();
+        }
+
+        private void page3_Click(object sender, EventArgs e)
+        {
+            topCount = divPage * Convert.ToInt32(page3.Text) - 30;
+            currentPage = Convert.ToInt32(page3.Text);
+            selectStudent();
+            currentPageCount();
+            labelColor();
+        }
+
+        private void page4_Click(object sender, EventArgs e)
+        {
+            topCount = divPage * Convert.ToInt32(page4.Text) - 30;
+            currentPage = Convert.ToInt32(page4.Text);
+            selectStudent();
+            currentPageCount();
+            labelColor();
+        }
+
+        private void page5_Click(object sender, EventArgs e)
+        {
+            topCount = divPage * Convert.ToInt32(page5.Text) - 30;
+            currentPage = Convert.ToInt32(page5.Text);
             selectStudent();
             currentPageCount();
             labelColor();
